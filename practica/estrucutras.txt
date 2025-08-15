@@ -1,0 +1,131 @@
+Pila:
+
+type PilaDinamica[T any] struct{
+    datos []T 
+    cantidad int
+}
+
+---------------------------------
+
+Cola:
+
+type colaEnlazada[T any] struct {
+    primero *nodoCola[T]
+    ultimo *nodoCola[T]
+}
+
+type nodoCola[T] struct {
+    dato T
+    siguiente *nodoCola[T]
+}
+
+----------------------------------
+
+Lista:
+
+type listaEnlazada[T any] struct {
+    primero *nodoLista[T]
+    ultimo *nodoLista[T]
+    largo int
+}
+
+type nodoLista[T] struct {
+    dato T
+    siguiente *nodoLista[T]
+}
+
+type iteradorListaEnlazada[T any] struct {
+    actual *nodoLista[T]
+    anterior *nodoLista[T]
+    lista *listaEnlazada[T]
+}
+
+-------------------------------------------
+
+Diccionario Hash:
+
+    -Cerrado:
+
+        type estadoParClaveDato int 
+        
+        const (
+            VACIO = estadoParClaveDato(iota)
+            BORRADO
+            OCUPADO
+        )
+        
+        type celdaHash[K comparable, V any] struct {
+            calve K
+            dato V
+            estado estadoParClaveDato
+        }
+
+        type hashCerrado[K comparable, V any] struct {
+            tabla []celdaHash[K,V]
+            cantidad int
+            tam int
+            borrados int
+        }
+    
+    -Abierto:
+
+        type parClaveValor[K comparable, V any] struct {
+            clave K
+            dato V
+        }
+
+        type hashAbierto[K comparable, V any] struct{
+            tabla []lista[parClaveValor[K,V]]
+            tam int
+            cantidad int
+        }
+
+-------------------------------------------------------
+
+Diccionario ABB:
+
+	type funcCmp[K comparable] func(K, K) int
+
+	type nodoAbb[K comparable, V any] struct {
+		izquierdo *nodoAbb[K, V]
+		derecho   *nodoAbb[K, V]
+		clave     K
+		dato      V
+	}
+
+	type abb[K comparable, V any] struct {
+		raiz     *nodoAbb[K, V]
+		cantidad int
+		cmp      funcCmp[K]
+	}
+
+	type iterExterno[K comparable, V any] struct {
+		anteriores pila.Pila[*nodoAbb[K, V]]
+		actual     *nodoAbb[K, V]
+	}
+
+--------------------------------------------------------
+
+Cola de Prioridad Heap:
+
+	type heap[T comparable] struct {
+		datos      []T
+		cantidad int
+		funcCmp  func(T, T) int
+	}
+
+	func HeapSort[T comparable](elementos []T, funcionCmp func(T, T) int) {
+		heapify(elementos, funcionCmp)
+		cantidad := len(elementos)
+		for i := len(elementos) - 1; i >= 0; i-- {
+			cantidad--
+			swap(elementos, 0, i)
+			downHeap(cantidad, 0, elementos, funcionCmp)
+		}
+	}
+
+	func heapify[T comparable](arr []T, funcionCmp func(T, T) int) {
+		for i := (len(arr) - 1) / 2; i >= 0; i-- {
+			downHeap(len(arr), i, arr, funcionCmp)
+		}
+	}

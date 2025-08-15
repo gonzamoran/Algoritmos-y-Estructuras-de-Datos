@@ -1,0 +1,12 @@
+camino_mas barato,San Diego,New York
+camino_mas rapido,New York,San Diego
+camino_escalas San Diego,New York
+centralidad 5
+nueva_aerolinea RositAIR.csv
+itinerario itinerario_ejemplo.csv
+nueva_aerolinea mst.csv
+centralidad 30
+camino_mas rapido,San Diego,New York
+exportar_kml kml-ejemplo.kml
+camino_mas barato,San Diego,New York
+exportar_kml kml-ejemplo.kml
